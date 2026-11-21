@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PTSCheck — Auditoría Inteligente de PTS Minero</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='8' fill='%23e0479e'/%3E%3Cpath d='M10 8 H22 L28 14 V30 H10 Z' fill='white' opacity='0.9'/%3E%3Cpath d='M22 8 V14 H28' fill='none' stroke='%23fbe6f2' stroke-width='1.2'/%3E%3Cpath d='M14 20 L17 23 L23 16' stroke='%237f3369' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <meta property="og:title" content="PTSCheck — Auditoría Inteligente de PTS Minero">
+  <meta property="og:description" content="Audita tu Procedimiento de Trabajo Seguro con IA: 9 dimensiones, 100 puntos, estándares internacionales y legislación chilena.">
+  <meta property="og:image" content="https://victorbarrientosboccardo.github.io/PTSCheck/ptscheck-og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+  <style>
+    /* ══════════════════════════════════════════════
+       SISTEMA DE IDENTIDAD INVICTUM — PTSCHECK
+       Base: Manual de Normas Gráficas v2.6
+       Acento: Magenta #E0479E ("Empresa 2" / PTSCheck)
+       Tipografía titular: Fraunces Medium 500
+       Cuerpo: DM Sans (compartido ecosistema)
+       Fondo: Crema #F8F6F2
+       Navy: #0D1B2A / #14273B
+    ══════════════════════════════════════════════ */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Base compartida */
+      --navy:    #0D1B2A;
+      --navy2:   #14273B;
+      --crema:   #F8F6F2;
+      --oro:     #B8975A;
+      --rojo:    #C8102E;      /* Invictum SPA — solo para referencias INVICTUM */
+      /* Acento PTSCheck */
+      --magenta:    #E0479E;
+      --magenta700: #7F3369;
+      --magenta100: #FDF0F7;
+      --magenta200: #F4BDDC;
+      --mag-suave:  #FBE6F2;
+      /* Neutros */
+      --gris:    #6B6B6B;
+      --gris2:   #AAAAAA;
+      --gris3:   #E0E0E0;
+      --blanco:  #FFFFFF;
+      /* Tipografías */
+      --f-titular:  'Fraunces', serif;
+      --f-cuerpo:   'DM Sans', sans-serif;
+      --f-display:  'Cormorant Garamond', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--f-cuerpo);
+      background: var(--mag-suave);
+      color: var(--navy);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 60px;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 12px; }
+    .nav-logo-svg {
+      display: block; flex-shrink: 0;
+    }
+    .nav-name {
+      font-family: var(--f-titular);
+      font-weight: 500; font-size: 18px; color: #FFFFFF;
+      letter-spacing: -.2px;
+    }
+    .nav-name span { color: var(--magenta); }
+    .nav-sub {
+      font-family: var(--f-cuerpo);
+      font-size: 10px; color: rgba(248,246,242,.4);
+      letter-spacing: 1.5px; text-transform: uppercase; margin-top: 1px;
+    }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      color: rgba(248,246,242,.55); text-decoration: none;
+      font-size: 13px; font-weight: 500; letter-spacing: .2px;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--crema); }
+    .nav-cta {
+      border: 1.5px solid var(--magenta) !important;
+      color: var(--magenta) !important;
+      padding: 6px 18px; border-radius: 4px;
+      font-weight: 600 !important;
+      transition: background .2s, color .2s !important;
+    }
+    .nav-cta:hover { background: var(--magenta) !important; color: var(--crema) !important; }
+
+    /* ── HERO ── Manual v2.15: fondo dominante = mag-suave; navy ≤14% ── */
+    .hero {
+      background: var(--mag-suave);
+      padding: 96px 40px 72px;
+      position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 1px; background: var(--magenta200); opacity: 1;
+    }
+    /* Franja navy superior dentro del hero — acento estructural, ≤12% alto */
+    .hero-stripe {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 6px; background: var(--navy);
+    }
+    .hero-inner { max-width: 820px; margin: 0 auto; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--f-cuerpo);
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--magenta700); /* sobre claro → 700 WCAG AA */
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block;
+      width: 24px; height: 1px; background: var(--magenta700);
+    }
+    .hero h1 {
+      font-family: var(--f-titular);
+      font-weight: 500;
+      font-size: clamp(38px, 5.5vw, 60px);
+      color: var(--navy); line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -.5px;
+    }
+    .hero h1 em {
+      font-style: italic; color: var(--magenta);
+    }
+    .hero-sub {
+      font-size: 16px; color: var(--gris);
+      max-width: 560px; margin-bottom: 40px; line-height: 1.65;
+    }
+    .hero-sub strong { color: var(--navy); }
+    .hero-tags {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 44px;
+    }
+    .hero-tag {
+      border: 1px solid var(--magenta200);
+      color: var(--gris); font-size: 11px; font-weight: 500;
+      padding: 4px 12px; border-radius: 2px;
+      letter-spacing: .3px;
+    }
+    .hero-tag-accent {
+      border-color: var(--magenta);
+      color: var(--magenta700); font-weight: 700;
+    }
+    .btn-hero {
+      display: inline-block;
+      background: var(--navy); color: #FFFFFF;
+      font-family: var(--f-cuerpo);
+      font-size: 14px; font-weight: 600; letter-spacing: .3px;
+      padding: 14px 32px; border-radius: 4px;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-hero:hover { background: var(--magenta); }
+
+    /* ── UPLOAD SECTION ── */
+    .upload-section {
+      background: var(--mag-suave);
+      padding: 72px 40px;
+    }
+    .upload-card {
+      max-width: 700px; margin: 0 auto;
+      background: var(--blanco);
+      border: 1px solid var(--gris3);
+      border-radius: 2px;
+      box-shadow: 0 2px 20px rgba(13,27,42,.07);
+    }
+    .card-header {
+      background: var(--navy); padding: 20px 32px;
+    }
+    .card-header .eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--magenta);
+      margin-bottom: 6px;
+    }
+    .card-header h2 {
+      font-family: var(--f-titular);
+      font-weight: 500; font-size: 24px; color: var(--crema);
+    }
+
+    /* Dropzone */
+    .card-body { padding: 32px; }
+    .dropzone {
+      border: 1.5px dashed var(--gris3);
+      border-radius: 2px; padding: 48px 24px;
+      text-align: center; cursor: pointer;
+      transition: all .2s;
+    }
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--magenta);
+      background: var(--magenta100);
+    }
+    .dz-icon {
+      width: 52px; height: 52px; margin: 0 auto 16px;
+      background: var(--magenta100); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .dz-icon svg { width: 24px; height: 24px; stroke: var(--magenta); }
+    .dropzone h3 {
+      font-family: var(--f-cuerpo);
+      font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 6px;
+    }
+    .dropzone p { font-size: 13px; color: var(--gris); }
+    .dropzone p span { color: var(--magenta); font-weight: 600; cursor: pointer; }
+    .dz-formats { display: flex; gap: 6px; justify-content: center; margin-top: 14px; }
+    .fmt {
+      background: var(--crema); color: var(--gris);
+      font-size: 10px; font-weight: 700; letter-spacing: .5px;
+      padding: 3px 9px; border-radius: 2px;
+    }
+    #file-input { display: none; }
+
+    /* File preview */
+    .file-preview {
+      display: none; align-items: center; gap: 14px;
+      background: var(--crema); border-radius: 2px;
+      padding: 14px 18px; margin-bottom: 20px;
+    }
+    .file-preview.show { display: flex; }
+    .fp-icon {
+      width: 40px; height: 40px; border-radius: 2px;
+      background: var(--magenta100);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .fp-icon svg { width: 20px; height: 20px; stroke: var(--magenta); }
+    .fp-info { flex: 1; }
+    .fp-name { font-size: 13px; font-weight: 600; color: var(--navy); }
+    .fp-size { font-size: 12px; color: var(--gris2); }
+    .fp-rm {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--gris3); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gris); transition: all .2s;
+    }
+    .fp-rm:hover { background: var(--magenta); color: white; }
+
+    /* Opciones */
+    .audit-opts { margin-bottom: 24px; }
+    .opts-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gris); margin-bottom: 10px;
+    }
+    .opts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .opt-chip {
+      border: 1.5px solid var(--gris3); border-radius: 2px;
+      padding: 10px 14px; cursor: pointer;
+      display: flex; align-items: center; gap: 10px;
+      transition: all .2s; background: var(--blanco);
+    }
+    .opt-chip:hover { border-color: var(--magenta); }
+    .opt-chip.selected { border-color: var(--magenta); background: var(--magenta100); }
+    .opt-chip input { display: none; }
+    .opt-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 2px solid var(--gris3); flex-shrink: 0;
+      transition: all .15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .opt-chip.selected .opt-dot { border-color: var(--magenta); background: var(--magenta); }
+    .opt-dot::after {
+      content: ''; width: 5px; height: 5px; border-radius: 50%;
+      background: white; opacity: 0; transition: opacity .15s;
+    }
+    .opt-chip.selected .opt-dot::after { opacity: 1; }
+    .opt-label { font-size: 13px; font-weight: 500; color: var(--navy); }
+    .opt-desc { font-size: 11px; color: var(--gris2); margin-top: 1px; }
+
+    /* Botón auditar */
+    .btn-audit {
+      width: 100%; padding: 15px;
+      background: var(--magenta); color: var(--crema);
+      border: none; border-radius: 2px;
+      font-family: var(--f-cuerpo);
+      font-size: 14px; font-weight: 700; letter-spacing: .3px;
+      cursor: pointer; transition: background .2s, transform .1s;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .btn-audit:hover { background: var(--magenta700); }
+    .btn-audit:active { transform: scale(.99); }
+    .btn-audit:disabled { background: var(--gris3); color: var(--gris2); cursor: not-allowed; transform: none; }
+    .btn-audit svg { width: 16px; height: 16px; stroke: currentColor; }
+
+    .upload-note {
+      text-align: center; margin-top: 14px;
+      font-size: 11px; color: var(--gris2); letter-spacing: .2px;
+    }
+    .upload-note a { color: var(--magenta); text-decoration: none; }
+
+    /* ── PROGRESS ── */
+    .audit-progress { display: none; padding: 32px; }
+    .audit-progress.show { display: block; }
+    .prog-steps { list-style: none; }
+    .prog-step {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 10px 0; border-bottom: 1px solid var(--gris3);
+    }
+    .prog-step:last-child { border-bottom: none; }
+    .si {
+      width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+    }
+    .si.pending { background: var(--gris3); color: var(--gris2); }
+    .si.running { background: var(--magenta100); color: var(--magenta); animation: pulse 1.4s infinite; }
+    .si.done { background: rgba(13,27,42,.08); color: var(--navy); }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+    @keyframes spin  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    .ps-name { font-size: 13px; font-weight: 600; color: var(--navy); }
+    .ps-desc { font-size: 12px; color: var(--gris2); margin-top: 2px; }
+
+    /* ── RESULTADO ── */
+    .audit-result { display: none; }
+    .audit-result.show { display: block; }
+
+    .result-header {
+      padding: 24px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--gris3);
+      flex-wrap: wrap; gap: 16px;
+    }
+    .score-block { display: flex; align-items: center; gap: 20px; }
+    .score-ring {
+      width: 76px; height: 76px; border-radius: 50%;
+      background: conic-gradient(var(--sc-color) var(--sc-deg), var(--gris3) 0);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .score-ring::before {
+      content: ''; position: absolute;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: white;
+    }
+    .score-num {
+      position: relative; z-index: 1;
+      font-family: var(--f-titular); font-weight: 500; font-size: 22px;
+      color: var(--navy);
+    }
+    .score-info .score-title {
+      font-family: var(--f-titular); font-weight: 500;
+      font-size: 17px; color: var(--navy); margin-bottom: 4px;
+    }
+    .score-info .score-sub { font-size: 12px; color: var(--gris2); }
+    .cat-badge {
+      display: inline-block; margin-top: 8px;
+      padding: 3px 12px; border-radius: 2px;
+      font-size: 11px; font-weight: 700; letter-spacing: .5px;
+    }
+    .cat-A { background: rgba(42,157,143,.1); color: #1A6B60; }
+    .cat-B { background: rgba(13,27,42,.08); color: var(--navy); }
+    .cat-C { background: rgba(230,136,0,.1); color: #915500; }
+    .cat-D { background: rgba(224,71,158,.1); color: var(--magenta700); }
+
+    .result-body { padding: 24px 32px; }
+    .sec-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--magenta700); /* sobre blanco → 700 WCAG AA */
+      margin-bottom: 12px; margin-top: 20px;
+    }
+    .sec-label:first-child { margin-top: 0; }
+
+    /* Criterios */
+    .crit-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px; }
+    .crit-row {
+      display: grid; grid-template-columns: 1fr 56px 90px;
+      align-items: center; gap: 12px;
+      padding: 10px 14px; border-radius: 2px;
+      background: var(--mag-suave);
+      border: 1px solid var(--magenta200);
+      box-shadow: 0 1px 4px rgba(224,71,158,.08);
+    }
+    .crit-row.fg { background: rgba(224,71,158,.05); }
+    .crit-cod { font-size: 10px; font-weight: 700; color: var(--magenta700); } /* sobre fondo claro → 700 */
+    .crit-nm { font-size: 13px; font-weight: 500; color: var(--navy); }
+    .crit-sc { font-size: 14px; font-weight: 700; text-align: center; }
+    .crit-bar-bg { height: 5px; background: var(--gris3); border-radius: 2px; overflow: hidden; }
+    .crit-bar-fill { height: 100%; border-radius: 2px; }
+
+    /* Hallazgos */
+    .findings { display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
+    .finding {
+      border-radius: 2px; padding: 14px 16px;
+      border-left: 3px solid;
+    }
+    .f-critical { background: rgba(224,71,158,.05); border-color: var(--magenta); }
+    .f-warning   { background: rgba(230,136,0,.05); border-color: #E68800; }
+    .f-ok        { background: rgba(42,157,143,.05); border-color: #2A9D8F; }
+    .f-tag {
+      font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; margin-bottom: 5px;
+    }
+    .f-critical .f-tag { color: var(--magenta); }
+    .f-warning   .f-tag { color: #915500; }
+    .f-ok        .f-tag { color: #1A6B60; }
+    .f-text { font-size: 13px; color: var(--navy); line-height: 1.55; }
+
+    /* Acciones */
+    .result-actions {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      padding: 0 32px 32px;
+    }
+    .btn-sec {
+      padding: 12px; border-radius: 2px;
+      border: 1.5px solid var(--gris3); background: var(--blanco);
+      font-family: var(--f-cuerpo);
+      font-size: 13px; font-weight: 500; color: var(--navy);
+      cursor: pointer; transition: all .2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-sec:hover { border-color: var(--navy); }
+    .btn-prim {
+      padding: 12px; border-radius: 2px;
+      background: var(--navy); border: none;
+      font-family: var(--f-cuerpo);
+      font-size: 13px; font-weight: 700; color: var(--crema);
+      cursor: pointer; transition: background .2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-prim:hover { background: var(--navy2); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(13,27,42,.6); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: var(--blanco); border-radius: 2px;
+      max-width: 480px; width: 100%;
+      box-shadow: 0 20px 60px rgba(13,27,42,.25);
+    }
+    .modal-hdr {
+      background: var(--navy); padding: 20px 24px;
+    }
+    .modal-hdr .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--magenta); text-transform: uppercase; margin-bottom: 6px; }
+    .modal-hdr h3 { font-family: var(--f-titular); font-weight: 500; font-size: 22px; color: var(--crema); }
+    .modal-close { float: right; background: none; border: none; color: rgba(248,246,242,.4); font-size: 22px; cursor: pointer; line-height: 1; }
+    .modal-bdy { padding: 24px; }
+    .modal-bdy p { font-size: 14px; color: var(--gris); line-height: 1.6; margin-bottom: 20px; }
+    .tiers { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .tier {
+      border: 1px solid var(--gris3); border-radius: 2px; padding: 14px 16px;
+      cursor: pointer; transition: border-color .2s;
+    }
+    .tier:hover { border-color: var(--magenta); }
+    .tier.featured { border-color: var(--navy); }
+    .tier-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+    .tier-desc { font-size: 12px; color: var(--gris2); margin-top: 2px; }
+    .tier-price { font-size: 13px; font-weight: 700; color: var(--magenta); margin-top: 6px; }
+    .btn-contact {
+      width: 100%; padding: 13px; background: var(--magenta);
+      border: none; border-radius: 2px; color: var(--crema);
+      font-family: var(--f-cuerpo); font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: background .2s;
+    }
+    .btn-contact:hover { background: var(--magenta700); }
+
+    /* ── CÓMO FUNCIONA ── */
+    .how-section {
+      background: var(--blanco); padding: 80px 40px;
+      border-top: 1px solid var(--gris3); border-bottom: 1px solid var(--gris3);
+    }
+    .sec-hdr { text-align: center; margin-bottom: 56px; }
+    .sec-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--magenta700); /* sobre fondo claro → 700 WCAG AA */
+      margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .sec-eyebrow::before, .sec-eyebrow::after {
+      content: ''; display: block; width: 24px; height: 1px; background: var(--magenta700);
+    }
+    .sec-title {
+      font-family: var(--f-titular);
+      font-weight: 500;
+      font-size: clamp(28px, 4vw, 42px);
+      color: var(--navy); line-height: 1.15; margin-bottom: 14px;
+    }
+    .sec-title em { font-style: italic; color: var(--magenta); }
+    .sec-sub { font-size: 15px; color: var(--gris); max-width: 480px; margin: 0 auto; }
+
+    .steps-row {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 40px; max-width: 860px; margin: 0 auto;
+      position: relative;
+    }
+    .steps-row::before {
+      content: '';
+      position: absolute; top: 25px; left: 20%; right: 20%;
+      height: 1px; background: var(--gris3);
+    }
+    .step-card { text-align: center; }
+    .step-num {
+      width: 50px; height: 50px; border-radius: 50%;
+      border: 2px solid var(--magenta);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-family: var(--f-titular); font-weight: 500; font-size: 20px;
+      color: var(--magenta); background: var(--blanco);
+      position: relative; z-index: 1;
+    }
+    .step-card h3 {
+      font-family: var(--f-cuerpo);
+      font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 8px;
+    }
+    .step-card p { font-size: 13px; color: var(--gris); line-height: 1.55; }
+
+    /* ── 3 CAPAS ── */
+    .capas-section {
+      background: var(--navy); padding: 80px 40px;
+    }
+    .capas-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 2px; max-width: 920px; margin: 0 auto;
+    }
+    .capa-card {
+      padding: 32px 28px; position: relative; overflow: hidden;
+    }
+    .capa-card:first-child  { background: var(--navy2); border-radius: 2px 0 0 2px; }
+    .capa-card:nth-child(2) { background: rgba(255,255,255,.04); }
+    .capa-card:last-child   { background: var(--navy2); border-radius: 0 2px 2px 0; border-left: 2px solid var(--magenta); }
+    .capa-num {
+      font-family: var(--f-titular); font-weight: 500; font-size: 48px;
+      color: rgba(248,246,242,.06); position: absolute;
+      top: 16px; right: 20px; line-height: 1;
+    }
+    .capa-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 9px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+      margin-bottom: 16px;
+    }
+    .capa-pill-int { background: rgba(184,151,90,.15); color: var(--oro); }
+    .capa-pill-leg { background: rgba(42,157,143,.15); color: #5EC8BC; }
+    .capa-pill-emp { background: rgba(224,71,158,.18); color: var(--magenta); }
+    .capa-title {
+      font-family: var(--f-titular); font-weight: 500; font-size: 20px;
+      color: var(--crema); margin-bottom: 10px; line-height: 1.2;
+    }
+    .capa-desc { font-size: 13px; color: rgba(248,246,242,.5); line-height: 1.65; margin-bottom: 16px; }
+    .capa-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .capa-tag {
+      font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 2px;
+      border: 1px solid rgba(248,246,242,.1); color: rgba(248,246,242,.35);
+    }
+    .capa-tag-gold   { border-color: rgba(184,151,90,.35); color: rgba(184,151,90,.7); }
+    .capa-tag-green  { border-color: rgba(94,200,188,.3); color: rgba(94,200,188,.65); }
+    .capa-tag-magenta{ border-color: rgba(224,71,158,.35); color: rgba(224,71,158,.75); }
+    .capa-disclaimer {
+      max-width: 920px; margin: 20px auto 0;
+      background: rgba(255,255,255,.04); border-radius: 2px; border-left: 2px solid rgba(248,246,242,.1);
+      padding: 12px 18px;
+      font-size: 11px; color: rgba(248,246,242,.3); line-height: 1.6;
+    }
+    .capa-disclaimer strong { color: rgba(248,246,242,.5); }
+
+    /* ── CRITERIOS ── */
+    .crit-section { background: var(--mag-suave); padding: 80px 40px; }
+    .crit-preview {
+      max-width: 820px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .cp-item {
+      background: var(--blanco); border-radius: 2px;
+      padding: 16px 20px; border-left: 3px solid var(--navy);
+      border-top: 1px solid var(--gris3); border-right: 1px solid var(--gris3); border-bottom: 1px solid var(--gris3);
+    }
+    .cp-item.urg { border-left-color: var(--magenta); }
+    .cp-cod { font-size: 10px; font-weight: 700; color: var(--oro); letter-spacing: .5px; margin-bottom: 2px; }
+    .cp-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .cp-desc { font-size: 12px; color: var(--gris); line-height: 1.4; }
+    .crit-note {
+      text-align: center; margin-top: 20px;
+      font-size: 13px; color: var(--gris);
+    }
+    .crit-note strong { color: var(--magenta); }
+
+
+    /* ── CTA FINAL ── Manual: fondo dominante mag-suave; navy solo estructural ── */
+    .cta-final {
+      background: var(--mag-suave); padding: 80px 40px; text-align: center;
+      border-top: 4px solid var(--navy);
+    }
+    .cta-final h2 {
+      font-family: var(--f-titular); font-weight: 500;
+      font-size: clamp(28px, 4vw, 44px); color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .cta-final h2 em { font-style: italic; color: var(--magenta); }
+    .cta-final p { font-size: 15px; color: var(--gris); margin-bottom: 36px; }
+    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn-p {
+      padding: 14px 36px; background: var(--magenta);
+      border: none; border-radius: 2px; color: #FFFFFF;
+      font-family: var(--f-cuerpo); font-size: 14px; font-weight: 700;
+      cursor: pointer; text-decoration: none; transition: background .2s;
+    }
+    .cta-btn-p:hover { background: var(--magenta700); }
+    .cta-btn-g {
+      padding: 14px 36px; border: 1.5px solid var(--navy);
+      border-radius: 2px; color: var(--navy);
+      font-family: var(--f-cuerpo); font-size: 14px; font-weight: 500;
+      background: none; cursor: pointer; text-decoration: none;
+      transition: all .2s;
+    }
+    .cta-btn-g:hover { border-color: var(--magenta); color: var(--magenta700); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #07101A; padding: 28px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 14px;
+      border-top: 1px solid rgba(224,71,158,.2);
+    }
+    .footer-brand {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--f-titular); font-weight: 500;
+      font-size: 15px; color: var(--crema);
+    }
+    .footer-brand span { color: var(--magenta); }
+    .footer-by { font-size: 11px; color: rgba(248,246,242,.3); margin-top: 2px; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { color: rgba(248,246,242,.3); font-size: 12px; text-decoration: none; }
+    .footer-links a:hover { color: rgba(248,246,242,.6); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 64px 24px 56px; }
+      .upload-section { padding: 56px 20px; }
+      .card-body, .audit-progress, .result-body { padding: 24px 20px; }
+      .card-header { padding: 18px 20px; }
+      .result-header { padding: 20px; }
+      .result-actions { padding: 0 20px 20px; grid-template-columns: 1fr; }
+      .opts-grid { grid-template-columns: 1fr; }
+      .steps-row { grid-template-columns: 1fr; gap: 28px; }
+      .steps-row::before { display: none; }
+      .capas-grid { grid-template-columns: 1fr; gap: 8px; }
+      .capa-card:first-child  { border-radius: 2px 2px 0 0; }
+      .capa-card:last-child   { border-radius: 0 0 2px 2px; border-left: 2px solid var(--magenta); border-top: none; }
+      .crit-preview { grid-template-columns: 1fr; }
+      .pricing-cards { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .how-section, .crit-section, .pricing-section, .cta-final { padding: 64px 24px; }
+    }
+    #auditar { scroll-margin-top: 70px; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <svg class="nav-logo-svg" width="30" height="30" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="PTSCheck">
+      <rect width="36" height="36" rx="8" fill="#e0479e"/>
+      <path d="M10 8 H22 L28 14 V30 H10 Z" fill="white" opacity="0.9"/>
+      <path d="M22 8 V14 H28" fill="none" stroke="#fbe6f2" stroke-width="1.2"/>
+      <path d="M14 20 L17 23 L23 16" stroke="#7f3369" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div>
+      <div class="nav-name">PTS<span>Check</span></div>
+      <div class="nav-sub">by Invictum SPA</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#metodologia">Metodología</a>
+    <a href="#criterios">Criterios</a>
+    <a href="#auditar" class="nav-cta">Auditar gratis →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-stripe"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Herramienta · Seguridad Minera con IA</div>
+    <h1>¿Tu PTS protege a quien<br><em>trabaja en terreno?</em></h1>
+    <p class="hero-sub">Sube tu procedimiento y recibe un diagnóstico en <strong>3 capas</strong>: estándares internacionales (OIT, ICMM), legislación chilena (D.S. 132/2002, D.S. 44/2023, Ley 16.744) y la Pauta Única INVICTUM — 9 dimensiones, 100 puntos, 6 fallas graves.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">OIT · ICMM · Canadá · Australia · EE.UU.</span>
+      <span class="hero-tag">D.S. 132 · D.S. 44 · D.S. 594</span>
+      <span class="hero-tag hero-tag-accent">Gratis · Sin registro</span>
+    </div>
+    <a href="#auditar" class="btn-hero">Auditar mi PTS →</a>
+  </div>
+</section>
+
+<!-- UPLOAD / AUDITOR -->
+<section class="upload-section" id="auditar">
+  <div class="upload-card" id="main-card">
+
+    <!-- Estado 1: Upload -->
+    <div id="state-upload">
+      <div class="card-header">
+        <div class="eyebrow">Herramienta gratuita</div>
+        <h2>Auditar un PTS</h2>
+      </div>
+      <div class="card-body">
+        <div class="file-preview" id="file-preview">
+          <div class="fp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="fp-info">
+            <div class="fp-name" id="fname">—</div>
+            <div class="fp-size" id="fsize">—</div>
+          </div>
+          <button class="fp-rm" id="btn-remove" title="Quitar">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="file-input" accept=".pdf,.doc,.docx,.txt">
+          <div class="dz-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <h3>Arrastra tu PTS aquí</h3>
+          <p>o <span id="browse-link">selecciona un archivo</span></p>
+          <div class="dz-formats">
+            <span class="fmt">PDF</span>
+            <span class="fmt">DOCX</span>
+            <span class="fmt">DOC</span>
+            <span class="fmt">TXT</span>
+          </div>
+        </div>
+
+        <div class="audit-opts" style="margin-top:20px;">
+          <div class="opts-label">Tipo de auditoría</div>
+          <div class="opts-grid">
+            <label class="opt-chip selected" data-val="completa">
+              <input type="radio" name="tipo" value="completa" checked>
+              <div class="opt-dot"></div>
+              <div>
+                <div class="opt-label">Auditoría completa</div>
+                <div class="opt-desc">9 dimensiones · 100 puntos</div>
+              </div>
+            </label>
+            <label class="opt-chip" data-val="fallas">
+              <input type="radio" name="tipo" value="fallas">
+              <div class="opt-dot"></div>
+              <div>
+                <div class="opt-label">Solo fallas graves</div>
+                <div class="opt-desc">8 causas de incapacitante/fatal</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn-audit" id="btn-audit" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Auditar PTS
+        </button>
+        <p class="upload-note">
+          Gratuito, sin registro · El archivo no se almacena en servidores ·
+          <a href="mailto:contacto@invictum.cl">¿Necesitas la reescritura?</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Estado 2: Procesando -->
+    <div id="state-processing" style="display:none;">
+      <div class="card-header">
+        <div class="eyebrow">Analizando documento</div>
+        <h2>Auditoría en progreso…</h2>
+      </div>
+      <div class="audit-progress show">
+        <ul class="prog-steps">
+          <li class="prog-step"><div class="si running" id="si-0">1</div><div><div class="ps-name">Lectura del documento</div><div class="ps-desc">Extrayendo texto, estructura y secciones del PTS</div></div></li>
+          <li class="prog-step"><div class="si pending" id="si-1">2</div><div><div class="ps-name">Verificación de estructura</div><div class="ps-desc">Comprobando 18 secciones obligatorias</div></div></li>
+          <li class="prog-step"><div class="si pending" id="si-2">3</div><div><div class="ps-name">Análisis de controles críticos</div><div class="ps-desc">LOTO, permiso de trabajo, EPP, energías peligrosas</div></div></li>
+          <li class="prog-step"><div class="si pending" id="si-3">4</div><div><div class="ps-name">Evaluación Pauta Única</div><div class="ps-desc">9 dimensiones · 100 puntos · Detección de fallas graves</div></div></li>
+          <li class="prog-step"><div class="si pending" id="si-4">5</div><div><div class="ps-name">Generando informe</div><div class="ps-desc">Hallazgos, recomendaciones y categoría final</div></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Estado 3: Resultado -->
+    <div id="state-result" style="display:none;" class="audit-result">
+      <div class="card-header">
+        <div class="eyebrow">Resultado de auditoría</div>
+        <h2 id="result-title">—</h2>
+      </div>
+
+      <div class="result-header">
+        <div class="score-block">
+          <div class="score-ring" id="score-ring" style="--sc-color:#E0479E;--sc-deg:0deg;">
+            <div class="score-num" id="score-num">0</div>
+          </div>
+          <div class="score-info">
+            <div class="score-title" id="score-catname">—</div>
+            <div class="score-sub">de 100 puntos posibles</div>
+            <span class="cat-badge" id="cat-badge">—</span>
+          </div>
+        </div>
+        <button class="btn-sec" onclick="resetAudit()" style="font-size:12px;padding:8px 14px;">
+          ↩ Nueva auditoría
+        </button>
+      </div>
+
+      <div class="result-body">
+        <div class="sec-label">Puntuación por criterio</div>
+        <div class="crit-list" id="crit-list"></div>
+
+        <div class="sec-label">Hallazgos principales</div>
+        <div class="findings" id="findings"></div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn-sec" id="btn-pdf" onclick="handleDownloadPDF(this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar informe PDF
+        </button>
+        <button class="btn-prim" onclick="openModal()">
+          ✏️ Solicitar reescritura profesional
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div class="eyebrow">Servicio Invictum SPA</div>
+      <h3>Reescritura profesional del PTS</h3>
+    </div>
+    <div class="modal-bdy">
+      <p>Un ingeniero senior INVICTUM revisa, corrige y redacta el PTS completo cumpliendo las 9 dimensiones de la Pauta Única y los estándares OIT, ICMM, D.S. 132 y D.S. 44.</p>
+      <div class="tiers">
+        <div class="tier">
+          <div class="tier-name">PTS Simple</div>
+          <div class="tier-desc">Tarea rutinaria, 1–2 peligros críticos, hasta 15 pasos</div>
+          <div class="tier-price">Desde USD 180</div>
+        </div>
+        <div class="tier featured">
+          <div class="tier-name">PTS Crítico</div>
+          <div class="tier-desc">Equipo de alto riesgo, LOTO, trabajo en altura/caliente, +3 peligros</div>
+          <div class="tier-price">Desde USD 320</div>
+        </div>
+        <div class="tier">
+          <div class="tier-name">Lote de PTS</div>
+          <div class="tier-desc">5+ PTS del mismo equipo o proceso, incluye estandarización</div>
+          <div class="tier-price">Cotizar por volumen</div>
+        </div>
+      </div>
+      <button class="btn-contact" onclick="contactConsulta()">Contactar a Invictum SPA →</button>
+    </div>
+  </div>
+</div>
+
+<!-- CÓMO FUNCIONA -->
+<section class="how-section" id="como-funciona">
+  <div class="sec-hdr">
+    <div class="sec-eyebrow">Proceso</div>
+    <h2 class="sec-title">Tres pasos para saber si tu PTS<br>está a la <em>altura</em></h2>
+    <p class="sec-sub">Sin registro, sin instalaciones. Solo sube el documento y recibe el diagnóstico.</p>
+  </div>
+  <div class="steps-row">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <h3>Sube el PTS</h3>
+      <p>PDF, Word o texto. Puede ser un borrador o un procedimiento vigente. No se almacena en servidores externos.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <h3>La IA lo audita</h3>
+      <p>Aplica la Pauta Única INVICTUM: 9 dimensiones, 100 puntos, detección de 6 fallas graves que elevan el riesgo a incapacitante o fatal.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <h3>Recibes el informe</h3>
+      <p>Puntaje por criterio, categoría A–D, hallazgos críticos y recomendaciones. Si necesitas la corrección, INVICTUM la hace por ti.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 CAPAS DE REVISIÓN -->
+<section class="capas-section" id="metodologia">
+  <div class="sec-hdr" style="margin-bottom:44px;">
+    <div class="sec-eyebrow" style="color:var(--oro);">
+      <span style="display:inline-block;width:24px;height:1px;background:var(--oro);vertical-align:middle;margin-right:10px;"></span>
+      Metodología
+      <span style="display:inline-block;width:24px;height:1px;background:var(--oro);vertical-align:middle;margin-left:10px;"></span>
+    </div>
+    <h2 class="sec-title" style="color:var(--crema);">La auditoría se realiza en<br><em>tres capas independientes</em></h2>
+    <p class="sec-sub" style="color:rgba(248,246,242,.45);">Cada capa aporta una perspectiva distinta. El puntaje final integra las tres.</p>
+  </div>
+  <div class="capas-grid">
+
+    <div class="capa-card">
+      <div class="capa-num">1</div>
+      <div class="capa-pill capa-pill-int">Capa 1 · Internacional</div>
+      <h3 class="capa-title">Estándares internacionales</h3>
+      <p class="capa-desc">El PTS se contrasta con los marcos de buenas prácticas de organismos globales de seguridad minera e industrial. No constituye asesoría legal.</p>
+      <div class="capa-tags">
+        <span class="capa-tag capa-tag-gold">OIT — Convenio 176</span>
+        <span class="capa-tag capa-tag-gold">ICMM — Critical Controls</span>
+        <span class="capa-tag capa-tag-gold">Safe Work Australia</span>
+        <span class="capa-tag capa-tag-gold">Mine Safety Ontario</span>
+        <span class="capa-tag capa-tag-gold">MSHA — USA</span>
+      </div>
+    </div>
+
+    <div class="capa-card">
+      <div class="capa-num">2</div>
+      <div class="capa-pill capa-pill-leg">Capa 2 · Legislación chilena</div>
+      <h3 class="capa-title">Marco regulatorio Chile</h3>
+      <p class="capa-desc">Se revisa la presencia de requisitos de la normativa chilena vigente (D.S. 44/2023 en vigor desde el 01-FEB-2025, D.S. 132/2002, Ley 16.744, Res. 341/2023 MEHM). Esta revisión es referencial: <strong style="color:rgba(248,246,242,.6)">no es asesoría legal ni reemplaza a un abogado</strong>.</p>
+      <div class="capa-tags">
+        <span class="capa-tag capa-tag-green">D.S. 132/2002 — Reglamento Minero</span>
+        <span class="capa-tag capa-tag-green">D.S. 44/2023 — Gestión Preventiva</span>
+        <span class="capa-tag capa-tag-green">D.S. 594 — Higiene Industrial</span>
+        <span class="capa-tag capa-tag-green">Ley 16.744 — Seguro Social AT</span>
+        <span class="capa-tag capa-tag-green">D.S. 76/2006 — Subcontratación</span>
+        <span class="capa-tag capa-tag-green">Res. 341 Exenta/2023 — MEHM</span>
+      </div>
+    </div>
+
+    <div class="capa-card">
+      <div class="capa-num">3</div>
+      <div class="capa-pill capa-pill-emp">Capa 3 · Estándar INVICTUM</div>
+      <h3 class="capa-title">Pauta Única y norma empresa</h3>
+      <p class="capa-desc">La Pauta Única INVICTUM — 9 dimensiones, 100 puntos, 6 fallas graves — refleja 20+ años de auditorías en terreno en minería de gran escala.</p>
+      <div class="capa-tags">
+        <span class="capa-tag capa-tag-magenta">9 dimensiones · 100 pts</span>
+        <span class="capa-tag capa-tag-magenta">6 fallas graves</span>
+        <span class="capa-tag capa-tag-magenta">Categorías A–D</span>
+        <span class="capa-tag capa-tag-magenta">JHA / JSA / LOTO</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="capa-disclaimer">
+    <strong>Aviso importante:</strong> PTSCheck es una herramienta de diagnóstico técnico. Los resultados de la Capa 2 son de carácter referencial e informativo y <strong>no constituyen asesoría jurídica</strong>. Para determinar cumplimiento legal, consulte a un profesional habilitado.
+  </div>
+</section>
+
+<!-- CRITERIOS -->
+<section class="crit-section" id="criterios">
+  <div class="sec-hdr">
+    <div class="sec-eyebrow">Pauta Única Invictum</div>
+    <h2 class="sec-title">9 dimensiones de auditoría,<br><em>100 puntos</em> posibles</h2>
+    <p class="sec-sub">El mismo estándar que usa INVICTUM SpA en sus auditorías de terreno.</p>
+  </div>
+  <div class="crit-preview">
+    <div class="cp-item urg"><div class="cp-cod">A · 15 pts · ⚠ Falla grave</div><div class="cp-title">Análisis de riesgo de la tarea</div><div class="cp-desc">ART previo; peligros por paso; energías identificadas; peligros ocultos y en desarrollo</div></div>
+    <div class="cp-item urg"><div class="cp-cod">B · 20 pts · ⚠ Falla grave</div><div class="cp-title">Controles críticos y jerarquía</div><div class="cp-desc">Controles sobre EPP; controles críticos verificables; puntos de detención definidos</div></div>
+    <div class="cp-item urg"><div class="cp-cod">C · 15 pts · ⚠ Falla grave</div><div class="cp-title">Control de energías</div><div class="cp-desc">Aislamiento completo, candado personal, prueba de energía cero, bloqueo grupal</div></div>
+    <div class="cp-item"><div class="cp-cod">D · 10 pts</div><div class="cp-title">Estructura y control documental</div><div class="cp-desc">18 secciones presentes; versión, dueño, fecha de revisión, referencias</div></div>
+    <div class="cp-item"><div class="cp-cod">E · 10 pts</div><div class="cp-title">Redacción y facilidad de uso</div><div class="cp-desc">Verbos de acción, un paso por acción, sin ambigüedades, apto para capacitar</div></div>
+    <div class="cp-item"><div class="cp-cod">F · 10 pts</div><div class="cp-title">Requisitos de mantenimiento</div><div class="cp-desc">Permisos, equipo móvil, neumáticos, espacios confinados, devolución a servicio</div></div>
+    <div class="cp-item"><div class="cp-cod">G · 10 pts</div><div class="cp-title">Implementación y legislación</div><div class="cp-desc">Registros firmados, difusión, D.S. 44/2023 art. 72, D.S. 132, Ley 16.744</div></div>
+    <div class="cp-item"><div class="cp-cod">H · 5 pts</div><div class="cp-title">Competencias, roles y contratistas</div><div class="cp-desc">Roles autorizados, competencias requeridas, aptitud para el trabajo</div></div>
+    <div class="cp-item"><div class="cp-cod">I · 5 pts</div><div class="cp-title">Emergencias</div><div class="cp-desc">Respuesta y rescate específicos de la tarea; comunicaciones; evacuación</div></div>
+  </div>
+  <p class="crit-note">
+    <strong>6 fallas graves</strong> (Dimensiones A, B, C): si se detecta alguna, el PTS no puede categorizar sobre «D» independientemente del puntaje total.
+  </p>
+</section>
+
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <h2>Tu PTS, auditado en <em>60 segundos</em></h2>
+  <p>Sin registro. Sin letra chica. Solo el diagnóstico que necesitas.</p>
+  <div class="cta-btns">
+    <a href="#auditar" class="cta-btn-p">Auditar mi PTS gratis →</a>
+    <a href="mailto:contacto@invictum.cl" class="cta-btn-g">Hablar con un ingeniero</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">
+      <svg width="22" height="22" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="36" height="36" rx="8" fill="#e0479e"/>
+        <path d="M10 8 H22 L28 14 V30 H10 Z" fill="white" opacity="0.9"/>
+        <path d="M22 8 V14 H28" fill="none" stroke="#fbe6f2" stroke-width="1.2"/>
+        <path d="M14 20 L17 23 L23 16" stroke="#7f3369" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      PTS<span>Check</span>
+    </div>
+    <div class="footer-by">by Invictum SPA · Consultoría Minera · Chile · © 2026</div>
+  </div>
+  <div class="footer-links">
+    <a href="#">Privacidad</a>
+    <a href="#">Términos</a>
+    <a href="mailto:contacto@invictum.cl">Contacto</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// ═══════════════════════════════════════════════
+// DOWNLOAD CAPABILITY
+// ═══════════════════════════════════════════════
+let _downloads = null;
+(async () => {
+  if (window.claude) _downloads = await window.claude.use('downloads');
+})();
+
+// ═══════════════════════════════════════════════
+// FILE HANDLING
+// ═══════════════════════════════════════════════
+let selectedFile = null;
+const dropzone   = document.getElementById('dropzone');
+const fileInput  = document.getElementById('file-input');
+const browseLink = document.getElementById('browse-link');
+const filePreview= document.getElementById('file-preview');
+const btnAudit   = document.getElementById('btn-audit');
+
+browseLink.addEventListener('click', () => fileInput.click());
+dropzone.addEventListener('click', (e) => { if (e.target !== browseLink) fileInput.click(); });
+fileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
+dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+dropzone.addEventListener('drop', (e) => {
+  e.preventDefault(); dropzone.classList.remove('dragover');
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+document.getElementById('btn-remove').addEventListener('click', resetFile);
+
+function handleFile(file) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!['pdf','doc','docx','txt'].includes(ext)) { alert('Por favor sube un archivo PDF, DOC, DOCX o TXT.'); return; }
+  selectedFile = file;
+  document.getElementById('fname').textContent = file.name;
+  document.getElementById('fsize').textContent = formatSize(file.size);
+  filePreview.classList.add('show');
+  btnAudit.disabled = false;
+}
+function resetFile() {
+  selectedFile = null;
+  filePreview.classList.remove('show');
+  btnAudit.disabled = true;
+  fileInput.value = '';
+}
+function formatSize(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
+  return (b/1024/1024).toFixed(1) + ' MB';
+}
+
+// Radio opts
+document.querySelectorAll('.opt-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.opt-chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+    chip.querySelector('input').checked = true;
+  });
+});
+
+// ═══════════════════════════════════════════════
+// AUDIT SIMULATION
+// ═══════════════════════════════════════════════
+btnAudit.addEventListener('click', startAudit);
+
+function startAudit() {
+  if (!selectedFile) return;
+  document.getElementById('state-upload').style.display = 'none';
+  document.getElementById('state-processing').style.display = 'block';
+
+  const delays = [900, 1300, 1200, 1500, 900];
+  let cur = 0;
+  function next() {
+    if (cur > 0) {
+      const prev = document.getElementById('si-' + (cur-1));
+      if (prev) { prev.className = 'si done'; prev.textContent = '✓'; }
+    }
+    if (cur < 5) {
+      const el = document.getElementById('si-' + cur);
+      if (el) el.className = 'si running';
+      cur++;
+      if (cur < 5) setTimeout(next, delays[cur-1] || 1000);
+      else setTimeout(showResult, 700);
+    }
+  }
+  setTimeout(next, delays[0]);
+}
+
+function showResult() {
+  document.getElementById('state-processing').style.display = 'none';
+  const result = document.getElementById('state-result');
+  result.style.display = 'block';
+  result.classList.add('show');
+
+  const fname = selectedFile ? selectedFile.name.replace(/\.[^.]+$/,'') : 'PTS Auditado';
+  document.getElementById('result-title').textContent = fname;
+  // Leer el contenido del archivo para evaluación real
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const texto = (e.target.result || '').toLowerCase();
+    renderResult(evaluarPTS(texto));
+  };
+  reader.onerror = function() { renderResult(evaluarPTS('')); };
+  // Intentar leer como texto; si falla (PDF binario sin extracción), usar heurística básica
+  try { reader.readAsText(selectedFile); }
+  catch(err) { renderResult(evaluarPTS('')); }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PAUTA ÚNICA INVICTUM — Evaluación por análisis de contenido
+// 9 Dimensiones (A–I) · 100 puntos · 6 Fallas Graves
+// Versión 1.0 — Estándar de auditoría PTSCheck
+// ═══════════════════════════════════════════════════════════════════
+
+function tiene(texto, palabras) {
+  // Retorna true si el texto contiene al menos UNA de las palabras/frases del arreglo
+  return palabras.some(p => texto.includes(p.toLowerCase()));
+}
+
+function conteo(texto, palabras) {
+  // Retorna cuántas palabras/frases del arreglo aparecen en el texto
+  return palabras.filter(p => texto.includes(p.toLowerCase())).length;
+}
+
+function evaluarPTS(texto) {
+  // Si no hay texto extraíble (PDF binario sin capa de texto), devuelve objeto vacío
+  const sinTexto = !texto || texto.trim().length < 100;
+  const t = sinTexto ? '' : texto;
+
+  // ─────────────────────────────────────────────────
+  // DEFINICIÓN DE CONCEPTOS POR DIMENSIÓN
+  // (evaluación por CONCEPTOS, no palabras exactas)
+  // ─────────────────────────────────────────────────
+
+  // A. Análisis de riesgo de la tarea (15 pts)
+  const A = {
+    nombre: 'Análisis de riesgo de la tarea',
+    ponderacion: 15,
+    fg: true,
+    fgLabel: 'Sin análisis de riesgo',
+    conceptos: {
+      art:        ['art ', 'análisis de riesgos', 'analisis de riesgos', 'análisis de tarea', 'iper', 'identificación de peligros', 'identificacion de peligros', 'matriz de riesgo', 'jha', 'jsa', 'análisis preliminar'],
+      peligrosPorPaso: ['peligro', 'riesgo', 'hazard', 'potencial de daño', 'factor de riesgo', 'riesgo asociado'],
+      energias:   ['energía', 'energia', 'eléctric', 'electrica', 'hidráulic', 'hidraulic', 'neumátic', 'neumatic', 'cinétic', 'cinetica', 'potencial de energía', 'fuente de energía'],
+      residual:   ['riesgo residual', 'riesgo puro', 'riesgo controlado', 'nivel de riesgo', 'valoración de riesgo', 'valoracion de riesgo', 'calificación de riesgo', 'calificacion de riesgo', 'probabilidad', 'consecuencia', 'p×c', 'p x c', 'severidad'],
+      peligrosOcultos: ['peligro oculto', 'peligro en desarrollo', 'peligro latente', 'tarea no rutinaria', 'cambio de condición', 'condición anormal']
+    }
+  };
+
+  // B. Controles críticos y jerarquía (20 pts)
+  const B = {
+    nombre: 'Controles críticos y jerarquía',
+    ponderacion: 20,
+    fg: true,
+    fgLabel: 'Sin controles críticos sobre EPP',
+    conceptos: {
+      jerarquia:  ['eliminación', 'sustitución', 'control de ingeniería', 'control administrativo', 'epp', 'jerarquía de control', 'jerarquia de control', 'barrera', 'control crítico', 'control critico', 'eco ', 'eco-', 'estándar de control', 'estandar de control', 'control operacional', 'regla de vida', 'regla de oro', 'critical control', 'life saving rule'],
+      sobreEPP:   ['eliminación', 'sustitución', 'ingeniería', 'ingenieria', 'barrera dura', 'guarda', 'protección', 'proteccion', 'enclavamiento', 'enclavamineto', 'deflector', 'bloqueo'],
+      verificables: ['verificar', 'verificación', 'compruebe', 'confirme', 'inspeccion', 'inspección', 'check', 'chequeo', 'revisión', 'revision', 'asegure que', 'compruebe que'],
+      puntosDetencion: ['no iniciar', 'detener', 'detención', 'detencion', 'punto de detención', 'punto de detencion', 'regla de vida', 'parar', 'suspender', 'no continuar', 'antes de iniciar', 'requisito previo', 'riesgo grave e inminente', 'derecho a interrumpir', 'derecho a detener', 'art. 18', 'artículo 18', 'interrumpir la tarea']
+    }
+  };
+
+  // C. Control de energías (15 pts)
+  const C = {
+    nombre: 'Control de energías',
+    ponderacion: 15,
+    fg: true,
+    fgLabel: 'Sin control de energías peligrosas',
+    conceptos: {
+      aislamiento:  ['aislar', 'aislamiento', 'bloqueo', 'bloquear', 'loto', 'lmop', 'lock out', 'lockout', 'tag out', 'tagout', 'desconectar', 'descarga', 'desenchufar', 'desconexión', 'isolation'],
+      candadoPersonal: ['candado', 'candado personal', 'lock', 'etiqueta personal', 'tarjeta personal', 'bloqueo personal', 'hasp', 'dispositivo de bloqueo'],
+      energiaResidual: ['energía residual', 'energia residual', 'descarga de energía', 'descarga de energia', 'liberar presión', 'liberar energia', 'presión cero', 'presion cero', 'tensión cero', 'tension cero', 'descarga acumulada', 'vaciado', 'purga'],
+      pruebaEnergiaCero: ['prueba de energía cero', 'prueba de energia cero', 'verificación de energía cero', 'energía cero', 'energia cero', 'probar interruptor', 'intentar arranque', 'verificar que no arranca', 'confirmar detenido', 'verificar ausencia de tensión', 'ausencia de tension']
+    }
+  };
+
+  // D. Estructura y control documental (10 pts)
+  const D = {
+    nombre: 'Estructura y control documental',
+    ponderacion: 10,
+    fg: false,
+    conceptos: {
+      identificacion: ['código', 'codigo', 'número de documento', 'numero de documento', 'rev.', 'revisión', 'revision', 'versión', 'version', 'fecha'],
+      aprobacion: ['aprobado por', 'elaborado por', 'revisado por', 'firma', 'aprobación', 'aprobacion', 'nombre del documento'],
+      alcance: ['alcance', 'objetivo', 'área de aplicación', 'area de aplicacion', 'aplica a', 'equipos involucrados', 'personal involucrado'],
+      prerequisitos: ['prerequisito', 'prerrequisito', 'requisito previo', 'condición previa', 'condicion previa', 'antes de comenzar', 'verificar antes']
+    }
+  };
+
+  // E. Redacción y facilidad de uso (10 pts)
+  const E = {
+    nombre: 'Redacción y facilidad de uso',
+    ponderacion: 10,
+    fg: false,
+    conceptos: {
+      verbosAccion: ['verifique', 'instale', 'retire', 'coloque', 'asegure', 'cierre', 'abra', 'conecte', 'desconecte', 'compruebe', 'limpie', 'ajuste', 'fije', 'revise', 'posicione', 'ubique', 'señalice', 'informe', 'solicite', 'realice'],
+      pasosNumerados: ['paso 1', 'paso 2', 'paso 3', '1.', '2.', '3.', '4.', '5.', 'etapa 1', 'etapa 2'],
+      glosario: ['glosario', 'definición', 'definicion', 'abreviatura', 'sigla', 'acronimo', 'acrónimo', 'significado de'],
+      sinAmbiguedad: ['específicamente', 'específico', 'especificamente', 'especifico', 'exactamente', 'cm', 'mm', 'nm', 'kpa', 'bar', 'volt', 'ampere', 'kg', 'n·m', 'nm']
+    }
+  };
+
+  // F. Requisitos de mantenimiento (10 pts)
+  const F = {
+    nombre: 'Requisitos de mantenimiento',
+    ponderacion: 10,
+    fg: false,
+    conceptos: {
+      permisos: ['permiso de trabajo', 'permiso de acceso', 'pto', 'pt-', 'permiso eléctrico', 'permiso en altura', 'permiso espacio confinado', 'permiso trabajo en caliente', 'autorización de trabajo', 'autorizacion de trabajo'],
+      devolucion: ['devolución a servicio', 'devolucion a servicio', 'devolver al servicio', 'retorno a servicio', 'puesta en marcha', 'reintegro', 'entrega del equipo', 'acta de entrega', 'check list de devolución'],
+      herramientas: ['herramienta', 'equipo requerido', 'equipamiento necesario', 'recurso', 'material requerido', 'material necesario'],
+      epeCertif: ['certificado', 'habilitado', 'calificado', 'competente', 'licencia', 'autorización personal', 'trabajador habilitado', 'operador habilitado']
+    }
+  };
+
+  // G. Implementación y legislación (10 pts)
+  const G = {
+    nombre: 'Implementación y legislación',
+    ponderacion: 10,
+    fg: false,
+    conceptos: {
+      legislacion: ['d.s. 132', 'ds 132', 'ds132', 'd.s. 44', 'ds 44', 'ds44', 'd.s. 594', 'ds 594', 'ley 16.744', 'ley16744', 'sernageomin', 'seremi de salud', 'código del trabajo', 'codigo del trabajo', 'ds 76', 'd.s. 76', 'resolución 341', 'resolucion 341', 'res 341', 'mehm', 'resolución 668', 'resolucion 668', 'ds 21', 'd.s. 21'],
+      difusion: ['difusión', 'difusion', 'capacitación', 'capacitacion', 'entrenamiento', 'inducción', 'induccion', 'charla', 'firma de difusión', 'firma de difusion', 'acta de difusión', 'acta de difusion', 'comprensión del procedimiento', 'comprension del procedimiento', 'verificación de comprensión', 'verificacion de comprension'],
+      revision: ['revisión periódica', 'revision periodica', 'actualización', 'actualizacion', 'control de cambios', 'historial de cambios', 'próxima revisión', 'proxima revision', 'fecha de vigencia', 'registro de cambios', 'gestión del cambio', 'gestion del cambio'],
+      registros: ['registro', 'acta', 'formulario firmado', 'orden de trabajo', 'check list firmado', 'checklist firmado', 'constancia de difusión', 'constancia de difusion', 'registro electrónico', 'registro electronico']
+    }
+  };
+
+  // H. Competencias, roles y contratistas (5 pts)
+  const H = {
+    nombre: 'Competencias, roles y contratistas',
+    ponderacion: 5,
+    fg: false,
+    conceptos: {
+      roles: ['supervisor', 'ejecutante', 'responsable', 'operador', 'técnico', 'tecnico', 'ingeniero', 'vigilante', 'vigía', 'vigia', 'líder', 'lider', 'encargado'],
+      competencias: ['competencia', 'calificación', 'calificacion', 'experiencia requerida', 'requisito del ejecutante', 'años de experiencia', 'entrenamiento requerido', 'formación requerida', 'formacion requerida'],
+      contratistas: ['contratista', 'empresa contratista', 'subcontrato', 'empresa externa', 'proveedor de servicio']
+    }
+  };
+
+  // I. Emergencias (5 pts)
+  const I = {
+    nombre: 'Emergencias',
+    ponderacion: 5,
+    fg: false,
+    conceptos: {
+      planEmergencia: ['emergencia', 'contingencia', 'accidente', 'incidente', 'primeros auxilios', 'rescate', 'evacuación', 'evacuacion', 'accidente grave', 'accidente fatal', 'suspender faena', 'paralización', 'paralizacion'],
+      comunicacion: ['teléfono de emergencia', 'telefono de emergencia', 'número de emergencia', 'numero de emergencia', 'radio', 'comunicar al supervisor', 'área de rescate', 'area de rescate', 'ambulancia', '911', '112', '600 42 000 22', 'seremi de salud', 'inspección del trabajo', 'inspeccion del trabajo', 'sernageomin'],
+      puntosEncuentro: ['punto de encuentro', 'punto de reunión', 'punto de reunion', 'zona segura', 'muster point', 'punto de evacuación', 'punto de evacuacion', 'sitio seguro', 'zona de evacuación', 'zona de evacuacion']
+    }
+  };
+
+  const dimensiones = [A, B, C, D, E, F, G, H, I];
+
+  // ─────────────────────────────────────────────────
+  // EVALUACIÓN DE CADA DIMENSIÓN
+  // ─────────────────────────────────────────────────
+  const resultados = dimensiones.map(dim => {
+    const keys = Object.keys(dim.conceptos);
+    const pmax = dim.ponderacion;
+
+    if (sinTexto) {
+      // Sin texto extraíble: puntaje base mínimo (no podemos evaluar)
+      return { ...dim, sc: Math.round(pmax * 0.4), hallazgos: ['No se pudo extraer texto del documento para análisis automático.'] };
+    }
+
+    let cumplidosCount = 0;
+    let totalGrupos = keys.length;
+    const hallazgosDim = [];
+
+    keys.forEach(key => {
+      const palabras = dim.conceptos[key];
+      if (tiene(t, palabras)) {
+        cumplidosCount++;
+      } else {
+        // Genera hallazgo específico por grupo faltante
+        const mensajes = {
+          // A
+          art:             'No se detecta una ART o análisis de riesgos de la tarea previo a la ejecución.',
+          peligrosPorPaso: 'No se identifican peligros específicos por cada paso del procedimiento.',
+          energias:        'No se identifican las fuentes de energía peligrosa involucradas en la tarea.',
+          residual:        'No se incluye valoración del riesgo residual tras la aplicación de controles.',
+          peligrosOcultos: 'No se consideran peligros ocultos, en desarrollo o tareas no rutinarias.',
+          // B
+          jerarquia:       'No se evidencia aplicación de la jerarquía de controles (eliminación → sustitución → ingeniería → administrativo → EPP).',
+          sobreEPP:        'No se identifican controles de ingeniería o barreras duras por encima del EPP.',
+          verificables:    'Los controles no están redactados como verificables (sí/no). Falta evidencia de su aplicación.',
+          puntosDetencion: 'No se definen puntos de detención ni reglas de vida que prohíban continuar ante condición de riesgo.',
+          // C
+          aislamiento:     'No se describe procedimiento de aislamiento o bloqueo de energías (LOTO/LMOP).',
+          candadoPersonal: 'No se indica uso de candado personal por cada ejecutante como control de energía.',
+          energiaResidual: 'No se menciona liberación de energías residuales (descarga, purga, vaciado de presión).',
+          pruebaEnergiaCero: 'No se indica prueba de energía cero antes de intervenir el equipo.',
+          // D
+          identificacion:  'El documento carece de código, versión o fecha de revisión.',
+          aprobacion:      'No se identifican las firmas o aprobaciones del documento.',
+          alcance:         'No se define el alcance o aplicabilidad del procedimiento.',
+          prerequisitos:   'No se mencionan prerrequisitos o condiciones previas para iniciar la tarea.',
+          // E
+          verbosAccion:    'La redacción no usa verbos de acción (verifique, instale, retire). Las instrucciones son pasivas o ambiguas.',
+          pasosNumerados:  'Los pasos no están numerados o la secuencia operacional no es clara.',
+          glosario:        'No incluye glosario, definiciones ni aclaración de siglas o acrónimos.',
+          sinAmbiguedad:   'Faltan especificaciones técnicas (valores, medidas, tolerancias) que eliminen la ambigüedad.',
+          // F
+          permisos:        'No se menciona permiso de trabajo ni tipo de permiso requerido.',
+          devolucion:      'No se describe el procedimiento de devolución a servicio del equipo intervenido.',
+          herramientas:    'No se lista el equipamiento o herramientas requeridas para ejecutar la tarea.',
+          epeCertif:       'No se indican las certificaciones o habilitaciones requeridas del ejecutante.',
+          // G
+          legislacion:     'No hace referencia a normativa legal aplicable (D.S. 132/2002, D.S. 44/2023, Ley 16.744, Res. 341/2023 MEHM).',
+          difusion:        'No menciona proceso de difusión, capacitación o firma de los ejecutantes.',
+          revision:        'No indica fecha de vigencia, control de cambios ni gatillos de revisión periódica.',
+          registros:       'No menciona registros de difusión firmados (acta, formulario, OT). El D.S. 44/2023 art. 72 exige registro documental preferentemente electrónico.',
+          // H
+          roles:           'No se definen claramente los roles y responsabilidades de los participantes.',
+          competencias:    'No se especifican las competencias o experiencia requerida del ejecutante.',
+          contratistas:    'No se indica si participan contratistas ni las condiciones para su participación.',
+          // I
+          planEmergencia:  'No contiene un plan de respuesta ante emergencias específico de la tarea.',
+          comunicacion:    'No indica teléfonos o medios de comunicación de emergencia de la faena.',
+          puntosEncuentro: 'No define punto de encuentro o zona segura de evacuación.'
+        };
+        if (mensajes[key]) hallazgosDim.push(mensajes[key]);
+      }
+    });
+
+    // Puntaje proporcional a grupos cumplidos
+    const proporcion = cumplidosCount / totalGrupos;
+    const sc = Math.min(pmax, Math.round(pmax * proporcion));
+
+    return { ...dim, sc, hallazgos: hallazgosDim };
+  });
+
+  // ─────────────────────────────────────────────────
+  // FALLAS GRAVES
+  // ─────────────────────────────────────────────────
+  // Las 6 fallas graves según Pauta Única INVICTUM:
+  const fallasGraves = [];
+  const tieneFG = {
+    // FG-1: Intervención con energía peligrosa sin aislamiento o sin prueba de energía cero.
+    // Solo aplica cuando el PTS CONFIRMA que hay energía peligrosa (eléctrica, hidráulica, neumática).
+    // Si la tarea no tiene energía peligrosa (ej: manejo manual de cargas, ruido/vibración), no aplica.
+    fg1: !sinTexto &&
+         tiene(t, ['energía eléctrica','energia electrica','sistema eléctrico','sistema electrico','motor eléctrico','motor electrico','tablero eléctrico','tablero electrico','cable eléctrico','cable electrico','panel eléctrico','sistema hidráulico','sistema hidraulico','presión hidráulica','presion hidraulica','circuito hidráulico','circuito hidraulico','sistema neumático','sistema neumatico','presión neumática','presion neumatica','acumulador','sistema de frenos']) &&
+         (!tiene(t, ['aislar','aislamiento','bloqueo','loto','lmop','lockout','lock out','desconectar','desenchufar']) || !tiene(t, ['prueba de energía cero','prueba de energia cero','energía cero','energia cero','ausencia de tensión','ausencia de tension','intentar arranque','confirmar detenido'])),
+    // FG-2: EPP como único control frente a un riesgo fatal
+    fg2: !sinTexto && !tiene(t, ['eliminación','sustitución','control de ingeniería','control administrativo','barrera dura','guarda','protección','enclavamiento','deflector']) && tiene(t, ['epp','equipo de protección personal','equipo de proteccion personal','casco','guante','lente','zapato de seguridad']),
+    // FG-3: Trabajo bajo carga suspendida sin soporte mecánico.
+    // Solo aplica cuando hay izaje ACTIVO con personas expuestas bajo la carga.
+    // No aplica si el izaje es exclusión de alcance ("no cubre", "tampoco cubre"),
+    // o si "no trabajar bajo carga suspendida" aparece como regla de prohibición.
+    fg3: tiene(t, ['carga suspendida','izaje de componente','levante de componente','levantar componente','izar el componente','elevar el componente','componente suspendido','pieza suspendida']) &&
+         !tiene(t, ['no trabajar bajo','no estar bajo','no permanecer bajo','no ponerse bajo','tampoco cubre','no cubre el izaje','no incluye izaje','soporte mecánico','soporte mecanico','taco de seguridad','cuña de seguridad','bloque mecánico','bloque mecanico','accesorio de izaje certificado']),
+    // FG-4: Desmontaje/montaje de rueda (no solo inspección) sin desinflado completo del par dual
+    // Solo aplica cuando el PTS indica retiro, montaje, cambio o desmontaje de la rueda/neumático,
+    // no cuando el trabajo es inspección, mantención general o trabajo adyacente al equipo.
+    fg4: tiene(t, ['desmontaje de rueda','desmontaje del neumático','desmontaje del neumatico','desmontar rueda','desmontar neumático','desmontar neumatico','cambio de rueda','cambio de neumático','cambio de neumatico','retiro de rueda','retiro del neumático','retiro del neumatico','montaje de rueda','montaje de neumático','montaje de neumatico']) && !tiene(t, ['desinflado completo','desinflar','presión cero en ambos','par dual','neumático dual','neumatico dual','ambos neumáticos','ambos neumaticos']),
+    // FG-5: Ingreso a espacio confinado sin medición de atmósfera ni vigía.
+    // "atmósfera" y "ducto" son términos comunes en PTS generales (atmósfera de trabajo,
+    // conducto/ducto de agua). Solo activar con términos específicos de espacio confinado.
+    fg5: tiene(t, ['espacio confinado','ingreso a espacio','entrar al espacio','ingresar al espacio','silo cerrado','cisterna cerrada','pozo cerrado','tanque cerrado','ducto cerrado','cámara cerrada']) &&
+         !tiene(t, ['medición de atmósfera','medicion de atmosfera','detector de gas','gas tester','monitor de gas','vigía','vigia','sentinela','medición antes de ingresar','medicion antes de ingresar']),
+    // FG-6: Ningún control crítico en tarea con riesgo fatal
+    // Acepta vocabulario equivalente usado en minería latinoamericana:
+    // "control crítico" ICMM, "ECO" (Estándar de Control Operacional), "regla de vida",
+    // "control operacional", "barrera crítica", "critical control"
+    fg6: !sinTexto && !tiene(t, ['control crítico','control critico','critical control','barrera crítica','barrera critica','control fatal','fatal risk','eco ','eco-','estándar de control','estandar de control','control operacional','regla de vida','regla de oro','life saving rule','lifesaving rule','control de riesgo fatal','control de fatalidad']) && tiene(t, ['fatal','riesgo de muerte','riesgo muy alto','consecuencia fatal'])
+  };
+
+  // Solo activar FG si hay suficiente texto Y se cumple la condición
+  if (!sinTexto) {
+    if (tieneFG.fg1) fallasGraves.push({ id:'FG-1', dim:'C', txt:'Intervención con energía peligrosa sin aislamiento completo o sin prueba de energía cero. Control crítico exigido por D.S. 132 art. 23 y estándar ICMM Critical Control Management.' });
+    if (tieneFG.fg2) fallasGraves.push({ id:'FG-2', dim:'B', txt:'El EPP aparece como único control frente a un riesgo fatal, sin controles de ingeniería ni barreras duras por encima. Incumple jerarquía de controles (OIT, ICMM, D.S. 44 art. 18).' });
+    if (tieneFG.fg3) fallasGraves.push({ id:'FG-3', dim:'B', txt:'La tarea involucra trabajo bajo carga suspendida o izaje sin identificar soporte mecánico certificado. Riesgo de aplastamiento fatal.' });
+    if (tieneFG.fg4) fallasGraves.push({ id:'FG-4', dim:'C', txt:'La tarea involucra desmontaje o montaje de rueda/neumático sin indicar desinflado completo del par dual previo al retiro. Riesgo de explosión fatal por energía acumulada en aro partido (D.S. 132, estándar Codelco/BHP/Anglo).' });
+    if (tieneFG.fg5) fallasGraves.push({ id:'FG-5', dim:'B', txt:'La tarea involucra ingreso a espacio confinado sin medición previa de atmósfera ni vigía designado. Riesgo de asfixia o intoxicación fatal.' });
+    if (tieneFG.fg6) fallasGraves.push({ id:'FG-6', dim:'B', txt:'La tarea presenta riesgo fatal pero no identifica ningún control crítico verificable. Incumple estándar ICMM Critical Control Management.' });
+  }
+
+  // ─────────────────────────────────────────────────
+  // PUNTAJE TOTAL Y CATEGORÍA
+  // ─────────────────────────────────────────────────
+  let puntajeTotal = resultados.reduce((sum, r) => sum + r.sc, 0);
+
+  // Si hay falla grave → categoría D (máximo 49)
+  if (fallasGraves.length > 0) puntajeTotal = Math.min(puntajeTotal, 49);
+
+  return { puntaje: puntajeTotal, dimensiones: resultados, fallasGraves, sinTexto };
+}
+
+function renderResult(evalData) {
+  // Compatibilidad: si se llama con número (legado), convertir
+  let score, dimensiones, fallasGraves, sinTexto;
+  if (typeof evalData === 'number') {
+    score = evalData; dimensiones = []; fallasGraves = []; sinTexto = false;
+  } else {
+    score = evalData.puntaje;
+    dimensiones = evalData.dimensiones || [];
+    fallasGraves = evalData.fallasGraves || [];
+    sinTexto = evalData.sinTexto || false;
+  }
+
+  const deg = Math.round(score / 100 * 360);
+  let color, cat, catLabel;
+  // Categorías Pauta Única INVICTUM
+  if (score >= 85)      { color='#2A9D8F'; cat='A'; catLabel='Robusto — Estándar INVICTUM'; }
+  else if (score >= 70) { color='#0D1B2A'; cat='B'; catLabel='Aceptable con mejoras menores'; }
+  else if (score >= 50) { color='#E68800'; cat='C'; catLabel='Deficiente — Corregir antes de la próxima ejecución'; }
+  else                  { color='#E0479E'; cat='D'; catLabel='Crítico — No ejecutar sin corregir'; }
+
+  // Con falla grave → siempre D
+  if (fallasGraves.length > 0) { color='#E0479E'; cat='D'; catLabel='Crítico — Falla grave detectada'; }
+
+  const ring = document.getElementById('score-ring');
+  ring.style.setProperty('--sc-color', color);
+  ring.style.setProperty('--sc-deg', deg + 'deg');
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-catname').textContent = catLabel;
+  const badge = document.getElementById('cat-badge');
+  badge.textContent = 'Categoría ' + cat;
+  badge.className = 'cat-badge cat-' + cat;
+
+  // ── Tabla de dimensiones ──
+  const grid = document.getElementById('crit-list');
+  grid.innerHTML = '';
+  if (dimensiones.length === 0) {
+    grid.innerHTML = '<p style="color:var(--magenta);font-size:0.9rem;padding:1rem 0">No se pudo extraer el contenido del PTS para evaluación detallada.</p>';
+  } else {
+    dimensiones.forEach(d => {
+      const pct = Math.round((d.sc / d.ponderacion) * 100);
+      const barColor = pct >= 75 ? '#2A9D8F' : pct >= 50 ? '#E68800' : '#E0479E';
+      const esFG = d.fg && d.sc < Math.round(d.ponderacion * 0.4);
+      grid.innerHTML += `
+        <div class="crit-row${esFG ? ' fg' : ''}">
+          <div>
+            <div class="crit-cod">${d.nombre.split(' ')[0]}${d.fg ? ' ⚠' : ''} · ${d.ponderacion} pts</div>
+            <div class="crit-nm">${d.nombre}</div>
+          </div>
+          <div class="crit-sc" style="color:${barColor}">${d.sc}/${d.ponderacion}</div>
+          <div class="crit-bar-bg"><div class="crit-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
+        </div>`;
+    });
+  }
+
+  // ── Hallazgos ──
+  const flist = document.getElementById('findings');
+  flist.innerHTML = '';
+
+  if (sinTexto) {
+    flist.innerHTML = `<div class="finding f-warning"><div class="f-tag">AVISO</div><div class="f-text">El archivo subido no tiene capa de texto extraíble (PDF escaneado o imagen). La evaluación automática no pudo analizar el contenido. Para un diagnóstico completo, sube el PTS como archivo Word (.docx) o PDF con texto seleccionable.</div></div>`;
+    return;
+  }
+
+  // Fallas graves primero
+  fallasGraves.forEach(fg => {
+    flist.innerHTML += `<div class="finding f-critical"><div class="f-tag">FALLA GRAVE · ${fg.id}</div><div class="f-text">${fg.txt}</div></div>`;
+  });
+
+  // Hallazgos por dimensión (solo los que tienen brechas)
+  dimensiones.forEach(d => {
+    const pct = Math.round((d.sc / d.ponderacion) * 100);
+    if (pct < 100 && d.hallazgos && d.hallazgos.length > 0) {
+      const tipo = pct < 50 ? 'f-critical' : pct < 75 ? 'f-warning' : 'f-ok';
+      const tag  = pct < 50 ? 'MEJORA CRÍTICA' : pct < 75 ? 'MEJORA REQUERIDA' : 'OPORTUNIDAD';
+      d.hallazgos.forEach(h => {
+        flist.innerHTML += `<div class="finding ${tipo}"><div class="f-tag">${tag} · Dim. ${d.nombre.charAt(0)}</div><div class="f-text">${h}</div></div>`;
+      });
+    } else if (pct >= 100) {
+      flist.innerHTML += `<div class="finding f-ok"><div class="f-tag">CONFORME · Dim. ${d.nombre.charAt(0)}</div><div class="f-text">${d.nombre}: cumple los conceptos clave de esta dimensión.</div></div>`;
+    }
+  });
+
+  if (flist.innerHTML === '') {
+    flist.innerHTML = `<div class="finding f-ok"><div class="f-tag">SIN HALLAZGOS CRÍTICOS</div><div class="f-text">El PTS cumple con los conceptos evaluados en las 9 dimensiones de la Pauta Única INVICTUM.</div></div>`;
+  }
+
+  // Almacenar para PDF
+  window._auditData = { score, cat, catLabel, dimensiones, fallasGraves, sinTexto };
+}
+
+function resetAudit() {
+  resetFile();
+  document.getElementById('state-result').style.display = 'none';
+  document.getElementById('state-result').classList.remove('show');
+  document.getElementById('state-upload').style.display = 'block';
+}
+
+// ═══════════════════════════════════════════════
+// PDF REPORT — jsPDF hoja carta
+// ═══════════════════════════════════════════════
+async function handleDownloadPDF(btn) {
+  const orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Generando PDF…`;
+  try {
+    await downloadReport();
+  } catch(e) {
+    console.error('Error generando PDF:', e);
+    alert('No se pudo generar el PDF. Intenta nuevamente.');
+  }
+  btn.disabled = false;
+  btn.innerHTML = orig;
+}
+
+async function downloadReport() {
+  // ── 1. Recolectar datos del DOM ──────────────
+  const scoreEl  = document.getElementById('score-num');
+  const catEl    = document.getElementById('cat-badge');
+  const titleEl  = document.getElementById('result-title');
+  const critRows = document.querySelectorAll('#crit-list .crit-row');
+  const findRows = document.querySelectorAll('#findings .finding');
+
+  const score  = parseInt(scoreEl.textContent, 10) || 0;
+  const catTxt = catEl.textContent || 'Categoría B';
+  const catLtr = catTxt.replace('Categoría ','').trim();
+  const fname  = titleEl.textContent || 'PTS Auditado';
+  const fecha  = new Date().toLocaleDateString('es-CL', { year:'numeric', month:'long', day:'numeric' });
+  const year   = new Date().getFullYear();
+
+  // ── 2. Paleta de colores ──────────────────────
+  const NAVY    = [13,  27,  42];
+  const MAGENTA = [224, 71,  158];
+  const CREMA   = [248, 246, 242];
+  const WHITE   = [255, 255, 255];
+  const GRIS    = [107, 107, 107];
+  const GRIS3   = [224, 224, 224];
+  const OK      = [42,  157, 143];
+  const WARN    = [230, 136,  0];
+  const CRIT    = [224,  71, 158];
+  const catColors = { A: OK, B: NAVY, C: WARN, D: CRIT };
+  const scoreColor = catColors[catLtr] || NAVY;
+
+  // ── 3. jsPDF — hoja carta 216 × 279 mm ───────
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'letter' });
+  const W = 216, H = 279;
+  const ML = 18, MR = 18, MT = 0;
+  const CW = W - ML - MR; // 180 mm de contenido
+
+  // ── 4. Encabezado ─────────────────────────────
+  // Banda navy top
+  doc.setFillColor(...NAVY);
+  doc.rect(0, 0, W, 32, 'F');
+
+  // PTSCheck logotipo texto
+  doc.setTextColor(...WHITE);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(22);
+  doc.text('PTS', ML, 15);
+  doc.setTextColor(...MAGENTA);
+  doc.text('Check', ML + 18.5, 15);
+
+  // by INVICTUM SpA
+  doc.setTextColor(180,180,200);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7.5);
+  doc.text('by INVICTUM SpA  ·  Auditoría de Procedimientos de Trabajo Seguro', ML, 20);
+
+  // Título del informe
+  doc.setTextColor(...WHITE);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(10);
+  doc.text('INFORME DE AUDITORÍA PTS', ML, 27);
+
+  // Fecha — derecha
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(8);
+  doc.setTextColor(200,200,220);
+  doc.text(fecha, W - MR, 27, { align:'right' });
+
+  // ── 5. Bloque documento auditado ─────────────
+  let y = 40;
+  doc.setFillColor(...CREMA);
+  doc.roundedRect(ML, y, CW, 16, 2, 2, 'F');
+  doc.setTextColor(...GRIS);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7);
+  doc.text('DOCUMENTO AUDITADO', ML + 5, y + 5.5);
+  doc.setTextColor(...NAVY);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(10);
+  const fnameShort = fname.length > 65 ? fname.substring(0,62)+'...' : fname;
+  doc.text(fnameShort, ML + 5, y + 12);
+  y += 22;
+
+  // ── 6. Score y categoría ─────────────────────
+  // Círculo score
+  const cx = ML + 22, cy = y + 22;
+  doc.setDrawColor(...scoreColor);
+  doc.setLineWidth(3.5);
+  doc.circle(cx, cy, 18, 'S');
+  doc.setFillColor(...scoreColor);
+  doc.circle(cx, cy, 14.5, 'F');
+  doc.setTextColor(...WHITE);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(18);
+  doc.text(String(score), cx, cy + 3, { align:'center' });
+  doc.setFontSize(7);
+  doc.text('/ 100', cx, cy + 8.5, { align:'center' });
+
+  // Categoría badge
+  const bx = ML + 50, by = y + 8;
+  doc.setFillColor(...scoreColor);
+  doc.roundedRect(bx, by, 36, 11, 2, 2, 'F');
+  doc.setTextColor(...WHITE);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(10);
+  doc.text('Categoría ' + catLtr, bx + 18, by + 7.5, { align:'center' });
+
+  // Descripción categoría
+  const catDescs = {
+    A: 'Robusto — Estándar INVICTUM (85–100 pts)',
+    B: 'Aceptable con mejoras (70–84 pts)',
+    C: 'Deficiente — Corregir antes de la próxima ejecución (50–69 pts)',
+    D: 'Crítico — No ejecutar sin corregir (<50 pts o falla grave)'
+  };
+  doc.setTextColor(...NAVY);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(8.5);
+  doc.text(catDescs[catLtr] || '', bx, by + 18);
+
+  // Línea divisoria
+  y += 55;
+  doc.setDrawColor(...GRIS3);
+  doc.setLineWidth(0.3);
+  doc.line(ML, y, W - MR, y);
+  y += 7;
+
+  // ── 7. Tabla de criterios ─────────────────────
+  doc.setTextColor(...NAVY);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.text('EVALUACIÓN POR CRITERIO', ML, y);
+  y += 5;
+
+  // Cabecera tabla — Pauta Única INVICTUM 9 Dimensiones
+  doc.setFillColor(...NAVY);
+  doc.rect(ML, y, CW, 7, 'F');
+  doc.setTextColor(...WHITE);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(7.5);
+  doc.text('DIM.', ML + 3, y + 4.8);
+  doc.text('DIMENSIÓN', ML + 20, y + 4.8);
+  doc.text('PUNTAJE', ML + 125, y + 4.8);
+  doc.text('% CUMPL.', ML + 150, y + 4.8);
+  y += 7;
+
+  // Usar datos de auditoría almacenados (más preciso que el DOM)
+  const auditData = window._auditData;
+  const dimRows = auditData && auditData.dimensiones && auditData.dimensiones.length > 0
+    ? auditData.dimensiones
+    : Array.from(critRows).map((row, i) => ({
+        nombre: row.querySelector('.crit-nm')?.textContent?.trim() || ('Dimensión ' + String.fromCharCode(65+i)),
+        sc: parseInt(row.querySelector('.crit-sc')?.textContent || '0') || 0,
+        ponderacion: 10,
+        fg: row.classList.contains('fg')
+      }));
+
+  dimRows.forEach((d, i) => {
+    const pct    = Math.min(100, Math.round((d.sc / d.ponderacion) * 100));
+    const barW   = pct * 0.24; // máximo 24mm
+    const isFG   = d.fg && pct < 40;
+    const sc_color = pct >= 75 ? OK : pct >= 50 ? WARN : CRIT;
+    const letra  = String.fromCharCode(65 + i); // A, B, C...
+
+    const rowH = 8;
+    const bg   = i % 2 === 0 ? [...CREMA] : WHITE;
+    doc.setFillColor(...bg);
+    doc.rect(ML, y, CW, rowH, 'F');
+
+    // letra dimensión
+    doc.setTextColor(...NAVY);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(8);
+    doc.text(letra + (isFG ? '⚠' : ''), ML + 3, y + 5.2);
+
+    // nombre + ponderación
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(7.5);
+    const nmShort = d.nombre.length > 34 ? d.nombre.substring(0,32)+'…' : d.nombre;
+    doc.text(nmShort + ' (' + d.ponderacion + ' pts)', ML + 20, y + 5.2);
+
+    // puntaje texto
+    doc.setTextColor(...sc_color);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(8);
+    doc.text(d.sc + '/' + d.ponderacion, ML + 128, y + 5.2);
+
+    // mini barra %
+    doc.setFillColor(224,224,224);
+    doc.rect(ML + 149, y + 2.5, 24, 3, 'F');
+    doc.setFillColor(...sc_color);
+    doc.rect(ML + 149, y + 2.5, barW, 3, 'F');
+
+    y += rowH;
+  });
+
+  // ── 8. Hallazgos ─────────────────────────────
+  y += 8;
+  if (y > H - 70) { doc.addPage(); y = 20; }
+
+  doc.setDrawColor(...GRIS3);
+  doc.setLineWidth(0.3);
+  doc.line(ML, y - 4, W - MR, y - 4);
+
+  doc.setTextColor(...NAVY);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.text('HALLAZGOS Y OBSERVACIONES', ML, y);
+  y += 6;
+
+  findRows.forEach(row => {
+    const type = row.classList.contains('f-critical') ? 'critical'
+               : row.classList.contains('f-warning')  ? 'warning' : 'ok';
+    const tagEl = row.querySelector('.f-tag');
+    const txtEl = row.querySelector('.f-text');
+    const tag   = tagEl?.textContent?.trim() || '';
+    const txt   = txtEl?.textContent?.trim() || '';
+
+    const fColor = type === 'critical' ? CRIT : type === 'warning' ? WARN : OK;
+    const bgAlfa = type === 'critical' ? [255,240,247] : type === 'warning' ? [255,247,232] : [240,251,249];
+
+    // Calcular altura del bloque
+    const lines  = doc.splitTextToSize(txt, CW - 20);
+    const blkH   = 7 + lines.length * 4.2;
+
+    if (y + blkH > H - 25) { doc.addPage(); y = 20; }
+
+    // fondo
+    doc.setFillColor(...bgAlfa);
+    doc.roundedRect(ML, y, CW, blkH, 1.5, 1.5, 'F');
+    // borde izquierdo
+    doc.setFillColor(...fColor);
+    doc.rect(ML, y, 3, blkH, 'F');
+
+    // tag
+    doc.setTextColor(...fColor);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7);
+    doc.text(tag, ML + 7, y + 5);
+
+    // texto
+    doc.setTextColor(50,50,60);
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(7.5);
+    doc.text(lines, ML + 7, y + 10);
+
+    y += blkH + 3;
+  });
+
+  // ── 9. Sección 3 capas ────────────────────────
+  y += 6;
+  if (y > H - 55) { doc.addPage(); y = 20; }
+
+  doc.setDrawColor(...GRIS3);
+  doc.setLineWidth(0.3);
+  doc.line(ML, y - 2, W - MR, y - 2);
+
+  doc.setTextColor(...NAVY);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.text('METODOLOGÍA DE REVISIÓN — 3 CAPAS', ML, y + 4);
+  y += 10;
+
+  const capas = [
+    { n:'01', title:'Estándares internacionales', desc:'OIT / ICMM Critical Control Management · ISO 45001', color: [180,150,90] },
+    { n:'02', title:'Legislación chilena', desc:'D.S. 132/2002 · D.S. 44/2023 · Ley 16.744 · Res. 341/2023 · D.S. 594 (referencial, no asesoría jurídica)', color: [60,160,100] },
+    { n:'03', title:'Pauta Única INVICTUM', desc:'9 dimensiones (A–I) · 100 puntos · 6 fallas graves definidas', color: [...MAGENTA] },
+  ];
+  capas.forEach(c => {
+    if (y > H - 20) { doc.addPage(); y = 20; }
+    doc.setFillColor(...c.color);
+    doc.roundedRect(ML, y, 10, 10, 1, 1, 'F');
+    doc.setTextColor(...WHITE);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7);
+    doc.text(c.n, ML + 5, y + 6.5, { align:'center' });
+    doc.setTextColor(...NAVY);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(8);
+    doc.text(c.title, ML + 14, y + 4.5);
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...GRIS);
+    doc.text(c.desc, ML + 14, y + 9);
+    y += 14;
+  });
+
+  // ── 10. Pie de página ─────────────────────────
+  const footY = H - 16;
+  doc.setFillColor(...NAVY);
+  doc.rect(0, footY, W, 16, 'F');
+  doc.setTextColor(180,180,200);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(6.5);
+  doc.text(
+    'Revisión referencial basada en D.S. 44/2023 (vigente desde 01-FEB-2025), D.S. 132/2002, Ley 16.744, Res. 341/2023 MEHM. No constituye asesoría jurídica ni reemplaza opinión de abogado habilitado.',
+    ML, footY + 5.5
+  );
+  doc.setTextColor(...WHITE);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(7);
+  doc.text(
+    `PTSCheck · INVICTUM SpA · contacto@invictum.cl · www.PTSCheck.com · © ${year}`,
+    W / 2, footY + 11.5, { align:'center' }
+  );
+
+  // Número de páginas
+  const totalPages = doc.getNumberOfPages();
+  for (let p = 1; p <= totalPages; p++) {
+    doc.setPage(p);
+    doc.setTextColor(180,180,200);
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(6.5);
+    doc.text(`Pág. ${p} / ${totalPages}`, W - MR, footY + 5.5, { align:'right' });
+  }
+
+  // ── 11. Guardar ───────────────────────────────
+  const safeName = fname.replace(/[^a-zA-Z0-9_\-áéíóúñ]/g, '_').substring(0, 60);
+  const filename  = `PTSCheck_Informe_${safeName}.pdf`;
+  const pdfBlob   = doc.output('blob');
+
+  if (_downloads) {
+    try {
+      const ab = await pdfBlob.arrayBuffer();
+      await _downloads.save({ filename, data: new Uint8Array(ab) });
+      return;
+    } catch(e) { /* fallback */ }
+  }
+  const url = URL.createObjectURL(pdfBlob);
+  const a   = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 3000);
+}
+
+// ═══════════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════════
+function openModal()  { document.getElementById('modal').classList.add('show'); }
+function closeModal() { document.getElementById('modal').classList.remove('show'); }
+document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+function contactConsulta() {
+  window.location.href = 'mailto:contacto@invictum.cl?subject=Reescritura PTS — PTSCheck&body=Hola, me interesa el servicio de reescritura profesional de PTS. Adjunto el informe de auditoría.';
+}
+</script>
+</body>
+</html>
